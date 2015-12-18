@@ -2,30 +2,26 @@
 <html>
 	<head>
 		<title>Get Inbox Android</title>
-		<script type="text/javascript" charset="utf-8" src="smsread.js"></script>
+		<script type="text/javascript" charset="utf-8" src="SmsInboxPlugin.js"></script>
 		<script type="text/javascript" charset="utf-8" src="jquery.js"></script>
 		<script type="text/javascript">
-			document.addEventListener('deviceready',main, false);
-			function main(){
-				window.plugins.SMSReader.getInbox("",function(data){
-					  var text = getData(data);
-					  $("#inbox").html(text);
-				},function(){
-				 alert("Something went wrong!");
-				});
-			}
+			var smsInboxPlugin = cordova.require('cordova/plugin/smsinboxplugin');  
+			smsInboxPlugin.startReception(function(msg) {  
+				navigator.notification.alert(
+					msg, // message
+					alertDismissed, // callback
+					'Informasi', // title
+					'OK' // buttonName
+				);
+			}, function() {
+				navigator.notification.alert(
+					"Maaf terjadi kesalahan dalam pengambilan pesan", // message
+					alertDismissed, // callback
+					'Informasi', // title
+					'OK' // buttonName
+				);
+			});
 
-			function getData(data){
-			   var txt = "";
-			  for(var i = 0; i < data.messages.length; i++){
-					  txt += "<b>Number:</b>" +  data.messages[i].number + " ";
-					  if(data.messages[i].name != ""){
-						txt += "<b>Name:</b>" +  data.messages[i].name + " ";
-					  }
-					  txt += "<b> Message:</b>" + data.messages[i].text + "!<br />";
-			  }
-			  return txt;
-			}
 		</script>
 	</head>
 	<body>
