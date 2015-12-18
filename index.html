@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Get Inbox Android</title>
+		<script type="text/javascript" charset="utf-8" src="smsread.js"></script>
+		<script type="text/javascript" charset="utf-8" src="jquery.js"></script>
+		<script type="text/javascript">
+			document.addEventListener('deviceready',main, false);
+			function main(){
+				window.plugins.SMSReader.getInbox("",function(data){
+					  var text = getData(data);
+					  $("#inbox").html(text);
+				},function(){
+				 alert("Something went wrong!");
+				});
+			}
+
+			function getData(data){
+			   var txt = "";
+			  for(var i = 0; i < data.messages.length; i++){
+					  txt += "<b>Number:</b>" +  data.messages[i].number + " ";
+					  if(data.messages[i].name != ""){
+						txt += "<b>Name:</b>" +  data.messages[i].name + " ";
+					  }
+					  txt += "<b> Message:</b>" + data.messages[i].text + "!<br />";
+			  }
+			  return txt;
+			}
+		</script>
+	</head>
+	<body>
+        <h1>INBOX</h1><br />
+        <div id="inbox">inbox</div><br />
+	</body>
+</html>
+
